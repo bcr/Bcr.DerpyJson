@@ -5,12 +5,6 @@ namespace Bcr.DerpyJson;
 
 public class Parser
 {
-    private static Dictionary<Type, Func<string, object>> parseTypeDictionary = new()
-    {
-        { typeof(int), (input) => int.Parse(input) },
-        { typeof(decimal), (input) => decimal.Parse(input) },
-    };
-
     private static void SkipWhitespace(Span<byte> json, ref int index)
     {
         while (index < json.Length)
@@ -91,8 +85,9 @@ public class Parser
         var endIndex = index - 1;
 
         var rawNumber = Encoding.UTF8.GetString(json.Slice(startIndex, endIndex - startIndex + 1));
+        var parseMethod = typeHint.GetMethod("Parse");
 
-        return parseTypeDictionary[typeHint](rawNumber);
+        return parseMethod?.Invoke(null, new object[] { rawNumber })!;
     }
 
     public static string ParseString(Span<byte> json, ref int index)

@@ -10,6 +10,7 @@ public class ParserTest
         public string? bar { get; set; }
         public Decimal baz { get; set; }
         public DummyClass? blort { get; set; }
+        public long fooo { get; set; }
     }
 
     [Fact]
@@ -68,5 +69,13 @@ public class ParserTest
 
         Assert.Equal("bay", o?.blort?.bar);
         Assert.Equal(421, o?.blort?.foo);
+    }
+
+    [Fact]
+    public void Parse_ObjectLong()
+    {
+        DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"fooo\":420}"));
+
+        Assert.Equal(420, o?.fooo);
     }
 }
