@@ -78,4 +78,12 @@ public class ParserTest
 
         Assert.Equal(420, o?.fooo);
     }
+
+    [Fact]
+    public void Parse_Long()
+    {
+        long actual = Parser.Parse<long>(Encoding.UTF8.GetBytes("420"));
+
+        Assert.Equal(420, actual);
+    }
 }

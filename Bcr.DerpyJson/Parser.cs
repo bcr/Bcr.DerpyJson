@@ -79,7 +79,7 @@ public class Parser
     public static object ParseNumber(Span<byte> json, ref int index, Type typeHint)
     {
         var startIndex = index;
-        while ("-+0123456789eE.".Contains((char) json[index]))
+        while ((index < json.Length) && ("-+0123456789eE.".Contains((char) json[index])))
         {
             index += 1;
         }
