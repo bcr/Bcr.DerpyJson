@@ -99,6 +99,11 @@ public class Parser
         var startIndex = index;
         int endEscapeIndex = -1;
 
+        // endEscapeSequence is "the index at which the current escape
+        // sequence will end." Most importantly, if there is a QUOTATION MARK
+        // that is currently being escaped then the loop will not terminate,
+        // but if it is not escaped, it will.
+
         while (true)
         {
             if (index > endEscapeIndex)
