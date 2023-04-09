@@ -5,6 +5,12 @@ namespace Bcr.DerpyJson;
 
 public class Parser
 {
+    private static Dictionary<Type, Func<string, object>> parseTypeDictionary = new()
+    {
+        { typeof(int), (input) => int.Parse(input) },
+        { typeof(decimal), (input) => decimal.Parse(input) },
+    };
+
     private static void SkipWhitespace(Span<byte> json, ref int index)
     {
         while (index < json.Length)
@@ -75,7 +81,7 @@ public class Parser
         return destination;
     }
 
-    public static object ParseNumber(Span<byte> json, ref int index)
+    public static object ParseNumber(Span<byte> json, ref int index, Type typeHint)
     {
         var startIndex = index;
         while ("-+0123456789eE.".Contains((char) json[index]))
@@ -85,18 +91,8 @@ public class Parser
         var endIndex = index - 1;
 
         var rawNumber = Encoding.UTF8.GetString(json.Slice(startIndex, endIndex - startIndex + 1));
-        int integerResult;
 
-        if (int.TryParse(rawNumber, out integerResult))
-        {
-            return integerResult;
-        }
-        else
-        {
-            decimal doubleResult;
-            decimal.TryParse(rawNumber, out doubleResult);
-            return doubleResult;
-        }
+        return parseTypeDictionary[typeHint](rawNumber);
     }
 
     public static string ParseString(Span<byte> json, ref int index)
@@ -133,7 +129,7 @@ public class Parser
         }
         else if ((char.IsAsciiDigit((char) thisByte)) || (thisByte == '-'))
         {
-            return ParseNumber(json, ref index);
+            return ParseNumber(json, ref index, typeHint!);
         }
 
         return null;
