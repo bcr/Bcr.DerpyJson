@@ -110,6 +110,22 @@ public class Parser
         return Encoding.UTF8.GetString(json.Slice(startIndex, endIndex - startIndex));
     }
 
+    private static bool ParseTrue(Span<byte> json, ref int index)
+    {
+        // Skip "true"
+        index += 4;
+
+        return true;
+    }
+
+    private static bool ParseFalse(Span<byte> json, ref int index)
+    {
+        // Skip "false"
+        index += 5;
+
+        return false;
+    }
+
     private static object? ParseValue(Span<byte> json, ref int index, Type? typeHint)
     {
         SkipWhitespace(json, ref index);
@@ -122,6 +138,14 @@ public class Parser
         else if (thisByte == '"')
         {
             return ParseString(json, ref index);
+        }
+        else if (thisByte == 't')
+        {
+            return ParseTrue(json, ref index);
+        }
+        else if (thisByte == 'f')
+        {
+            return ParseFalse(json, ref index);
         }
         else if ((char.IsAsciiDigit((char) thisByte)) || (thisByte == '-'))
         {

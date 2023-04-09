@@ -86,4 +86,20 @@ public class ParserTest
 
         Assert.Equal(420, actual);
     }
+
+    [Fact]
+    public void Parse_BooleanTrue()
+    {
+        bool actual = Parser.Parse<bool>(Encoding.UTF8.GetBytes("true"));
+
+        Assert.True(actual);
+    }
+
+    [Fact]
+    public void Parse_BooleanFalse()
+    {
+        bool actual = Parser.Parse<bool>(Encoding.UTF8.GetBytes("false"));
+
+        Assert.False(actual);
+    }
 }

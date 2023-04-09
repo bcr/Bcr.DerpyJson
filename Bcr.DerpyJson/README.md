@@ -38,10 +38,6 @@ I didn't want to wait that long. This one takes less time.
   you hand, say, a number with a decimal point in it but the type is
   `int` it will hurt.
 
-### Booleans
-
-* Not supported.
-
 ### null (this is JSON Value null, not a JavaScript error)
 
 * Not supported.
