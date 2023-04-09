@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bcr.DerpyJson", "Bcr.DerpyJson\Bcr.DerpyJson.csproj", "{BC0090F6-3524-4B18-BF89-8559F10763A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bcr.DerpyJson.Test", "Bcr.DerpyJson.Test\Bcr.DerpyJson.Test.csproj", "{80602328-BCFE-40C4-81AC-D760A8E12E98}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC0090F6-3524-4B18-BF89-8559F10763A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC0090F6-3524-4B18-BF89-8559F10763A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC0090F6-3524-4B18-BF89-8559F10763A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC0090F6-3524-4B18-BF89-8559F10763A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80602328-BCFE-40C4-81AC-D760A8E12E98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80602328-BCFE-40C4-81AC-D760A8E12E98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80602328-BCFE-40C4-81AC-D760A8E12E98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80602328-BCFE-40C4-81AC-D760A8E12E98}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
