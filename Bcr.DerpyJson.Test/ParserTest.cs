@@ -8,7 +8,7 @@ public class ParserTest
     {
         public int foo { get; set; }
         public string? bar { get; set; }
-        public Decimal baz { get; set; }
+        public decimal baz { get; set; }
         public DummyClass? blort { get; set; }
         public long fooo { get; set; }
     }
