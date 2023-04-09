@@ -77,6 +77,25 @@ public class Parser
         return finalNumber;
     }
 
+    public static string ParseString(Span<byte> json, ref int index)
+    {
+        // Skip leading "
+        ++index;
+
+        var startIndex = index;
+
+        while (json[index] != '\"')
+        {
+            ++index;
+        }
+        var endIndex = index;
+
+        // Skip trailing "
+        ++index;
+
+        return Encoding.UTF8.GetString(json.Slice(startIndex, endIndex - startIndex));
+    }
+
     public static object ParseValue(Span<byte> json, ref int index, object destination)
     {
         SkipWhitespace(json, ref index);
@@ -85,6 +104,10 @@ public class Parser
         if (thisByte == '{')
         {
             ParseObject(json, ref index, destination);
+        }
+        else if (thisByte == '"')
+        {
+            return ParseString(json, ref index);
         }
         else if (char.IsAsciiDigit((char) thisByte))
         {

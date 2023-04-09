@@ -7,6 +7,7 @@ public class UnitTest1
     class DummyClass
     {
         public int foo { get; set; }
+        public string? bar { get; set; }
     }
 
     [Fact]
@@ -23,5 +24,13 @@ public class UnitTest1
         DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"foo\":420}"));
 
         Assert.Equal(420, o.foo);
+    }
+
+    [Fact]
+    public void Parse_ObjectString()
+    {
+        DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"bar\":\"baz\"}"));
+
+        Assert.Equal("baz", o.bar);
     }
 }
