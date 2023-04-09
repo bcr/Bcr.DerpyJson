@@ -2,7 +2,7 @@ using System.Text;
 
 namespace Bcr.DerpyJson.Test;
 
-public class UnitTest1
+public class ParserTest
 {
     class DummyClass
     {
