@@ -128,7 +128,7 @@ public class Parser
         {
             return ParseString(json, ref index);
         }
-        else if (char.IsAsciiDigit((char) thisByte))
+        else if ((char.IsAsciiDigit((char) thisByte)) || (thisByte == '-'))
         {
             return ParseNumber(json, ref index);
         }

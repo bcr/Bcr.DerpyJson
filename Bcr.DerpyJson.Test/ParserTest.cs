@@ -51,4 +51,12 @@ public class UnitTest1
 
         Assert.Equal((decimal) 420.69, o.baz);
     }
+
+    [Fact]
+    public void Parse_ObjectNegativeDecimal()
+    {
+        DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"baz\":-420.69}"));
+
+        Assert.Equal((decimal) -420.69, o.baz);
+    }
 }
