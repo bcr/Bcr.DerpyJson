@@ -76,7 +76,7 @@ public class Parser
         return destination;
     }
 
-    public static object ParseNumber(Span<byte> json, ref int index, Type typeHint)
+    private static object ParseNumber(Span<byte> json, ref int index, Type typeHint)
     {
         var startIndex = index;
         while ((index < json.Length) && ("-+0123456789eE.".Contains((char) json[index])))
@@ -91,7 +91,7 @@ public class Parser
         return parseMethod?.Invoke(null, new object[] { rawNumber })!;
     }
 
-    public static string ParseString(Span<byte> json, ref int index)
+    private static string ParseString(Span<byte> json, ref int index)
     {
         // Skip leading "
         ++index;
@@ -110,7 +110,7 @@ public class Parser
         return Encoding.UTF8.GetString(json.Slice(startIndex, endIndex - startIndex));
     }
 
-    public static object? ParseValue(Span<byte> json, ref int index, Type? typeHint)
+    private static object? ParseValue(Span<byte> json, ref int index, Type? typeHint)
     {
         SkipWhitespace(json, ref index);
         byte thisByte = json[index];
