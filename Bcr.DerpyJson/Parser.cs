@@ -53,10 +53,11 @@ public class Parser
 
             // Now we are on a Value
 
-            var value = ParseValue(json, ref index, null);
-
             // Find a property with the right name and see if we can jam the value in there
             var property = destination.GetType().GetProperty(Encoding.UTF8.GetString(json.Slice(startNameIndex, endNameIndex - startNameIndex + 1)));
+
+            var value = ParseValue(json, ref index, property?.PropertyType);
+
             property?.SetValue(destination, value);
 
             SkipWhitespace(json, ref index);

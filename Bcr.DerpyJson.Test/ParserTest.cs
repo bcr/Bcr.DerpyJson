@@ -9,6 +9,7 @@ public class UnitTest1
         public int foo { get; set; }
         public string? bar { get; set; }
         public Decimal baz { get; set; }
+        public DummyClass? blort { get; set; }
     }
 
     [Fact]
@@ -58,5 +59,14 @@ public class UnitTest1
         DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"baz\":-420.69}"));
 
         Assert.Equal((decimal) -420.69, o?.baz);
+    }
+
+    [Fact]
+    public void Parse_NestedObjects()
+    {
+        DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"bar\":\"baz\",\"foo\":420,\"blort\":{\"bar\":\"bay\",\"foo\":421}}"));
+
+        Assert.Equal("bay", o?.blort?.bar);
+        Assert.Equal(421, o?.blort?.foo);
     }
 }
