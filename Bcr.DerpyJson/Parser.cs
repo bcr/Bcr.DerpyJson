@@ -1,4 +1,5 @@
 using System.Runtime.Serialization;
+using System.Reflection;
 using System.Text;
 
 namespace Bcr.DerpyJson;
@@ -85,7 +86,7 @@ public class Parser
         var endIndex = index - 1;
 
         var rawNumber = Encoding.UTF8.GetString(json.Slice(startIndex, endIndex - startIndex + 1));
-        var parseMethod = typeHint.GetMethod("Parse");
+        var parseMethod = typeHint.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public, new Type[] { typeof(string) });
 
         return parseMethod?.Invoke(null, new object[] { rawNumber })!;
     }
