@@ -97,9 +97,28 @@ public class Parser
         ++index;
 
         var startIndex = index;
+        int endEscapeIndex = -1;
 
-        while (json[index] != '\"')
+        while (true)
         {
+            if (index > endEscapeIndex)
+            {
+                if (json[index] == '\\')
+                {
+                    if (json[index + 1] == 'u')
+                    {
+                        endEscapeIndex = index + 1 + 4;
+                    }
+                    else
+                    {
+                        endEscapeIndex = index + 1;
+                    }
+                }
+                else if (json[index] == '"')
+                {
+                    break;
+                }
+            }
             ++index;
         }
         var endIndex = index;
@@ -107,7 +126,57 @@ public class Parser
         // Skip trailing "
         ++index;
 
-        return Encoding.UTF8.GetString(json.Slice(startIndex, endIndex - startIndex));
+        var startingString = Encoding.UTF8.GetString(json.Slice(startIndex, endIndex - startIndex));
+
+        StringBuilder finalString = new StringBuilder(startingString.Length);
+
+        for (int stringIndex = 0;stringIndex < startingString.Length;++stringIndex)
+        {
+            if (startingString[stringIndex] == '\\')
+            {
+                var thisChar = startingString[stringIndex + 1];
+                switch (thisChar)
+                {
+                    case '\"':
+                    case '\\':
+                    case '/':
+                        finalString.Append(thisChar);
+                        stringIndex += 1;
+                        break;
+                    case 'b':
+                        finalString.Append('\b');
+                        stringIndex += 1;
+                        break;
+                    case 'f':
+                        finalString.Append('\f');
+                        stringIndex += 1;
+                        break;
+                    case 'n':
+                        finalString.Append('\n');
+                        stringIndex += 1;
+                        break;
+                    case 'r':
+                        finalString.Append('\r');
+                        stringIndex += 1;
+                        break;
+                    case 't':
+                        finalString.Append('\t');
+                        stringIndex += 1;
+                        break;
+                    case 'u':
+                        var charValue = Convert.ToChar(Convert.ToInt32(startingString.Substring(stringIndex + 2, 4), 16));
+
+                        finalString.Append(charValue);
+                        stringIndex += 5;
+                        break;
+                }
+            }
+            else
+            {
+                finalString.Append(startingString[stringIndex]);
+            }
+        }
+        return finalString.ToString();
     }
 
     private static bool ParseTrue(Span<byte> json, ref int index)

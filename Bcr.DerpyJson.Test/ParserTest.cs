@@ -102,4 +102,16 @@ public class ParserTest
 
         Assert.False(actual);
     }
+
+    [Fact]
+    public void Parse_StringWithEscapes()
+    {
+        // In the string below, I am using a verbatim string, and then in the
+        // assertion I'm using a normal C# string. Note the escaping
+        // conventions are different between the two. Also note the escaping
+        // conventions are different in a JSON string. You have been warned.
+        string? actual = Parser.Parse<string>(Encoding.UTF8.GetBytes(@"""\""\\\/\b\f\n\r\t\u20ac"""));
+
+        Assert.Equal("\"\\/\b\f\n\r\t\u20ac", actual);
+    }
 }

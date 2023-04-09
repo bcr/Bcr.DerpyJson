@@ -24,13 +24,6 @@ I didn't want to wait that long. This one takes less time.
 * The way Values from an Object are handled is the parsed Value is set to
   the Property from the parent Type specified.
 
-### Strings
-
-* Backslash escapes are not supported. If there is a `\"` in a string, it
-  won't notice that it's escaped and your string will end prematurely and
-  will probably bomb out. Any other backslash escape will be included
-  literally in the string.
-
 ### Numbers
 
 * Numbers will probably explode impressively if you give them something
