@@ -58,6 +58,12 @@ public class Parser
             property?.SetValue(destination, value);
 
             SkipWhitespace(json, ref index);
+
+            if (json[index] == ',')
+            {
+                ++index;
+                SkipWhitespace(json, ref index);
+            }
         }
 
         // Skip the closing '}'

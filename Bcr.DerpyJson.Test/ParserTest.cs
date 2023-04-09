@@ -33,4 +33,13 @@ public class UnitTest1
 
         Assert.Equal("baz", o.bar);
     }
+
+    [Fact]
+    public void Parse_ObjectMultipleValues()
+    {
+        DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"bar\":\"baz\",\"foo\":420}"));
+
+        Assert.Equal("baz", o.bar);
+        Assert.Equal(420, o.foo);
+    }
 }
