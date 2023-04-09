@@ -17,8 +17,10 @@ public class Parser
         }
     }
 
-    private static object ParseObject(Span<byte> json, ref int index, object destination)
+    private static object ParseObject(Span<byte> json, ref int index, Type typeHint)
     {
+        object destination = FormatterServices.GetUninitializedObject(typeHint);
+
         // Skip the opening {
         ++index;
 
@@ -51,7 +53,7 @@ public class Parser
 
             // Now we are on a Value
 
-            var value = ParseValue(json, ref index, destination);
+            var value = ParseValue(json, ref index, null);
 
             // Find a property with the right name and see if we can jam the value in there
             var property = destination.GetType().GetProperty(Encoding.UTF8.GetString(json.Slice(startNameIndex, endNameIndex - startNameIndex + 1)));
@@ -115,14 +117,14 @@ public class Parser
         return Encoding.UTF8.GetString(json.Slice(startIndex, endIndex - startIndex));
     }
 
-    public static object ParseValue(Span<byte> json, ref int index, object destination)
+    public static object? ParseValue(Span<byte> json, ref int index, Type? typeHint)
     {
         SkipWhitespace(json, ref index);
         byte thisByte = json[index];
 
         if (thisByte == '{')
         {
-            return ParseObject(json, ref index, destination);
+            return ParseObject(json, ref index, typeHint!);
         }
         else if (thisByte == '"')
         {
@@ -133,14 +135,13 @@ public class Parser
             return ParseNumber(json, ref index);
         }
 
-        return destination;
+        return null;
     }
 
-    public static T Parse<T>(Span<byte> json)
+    public static T? Parse<T>(Span<byte> json)
     {
-        object returnObject = FormatterServices.GetUninitializedObject(typeof(T));
         int index = 0;
 
-        return (T) ParseValue(json, ref index, returnObject);
+        return (T?) ParseValue(json, ref index, typeof(T));
     }
 }

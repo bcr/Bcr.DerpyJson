@@ -14,7 +14,7 @@ public class UnitTest1
     [Fact]
     public void Parse_ReturnsObject()
     {
-        object o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{}"));
+        object? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{}"));
 
         Assert.IsType<DummyClass>(o);
     }
@@ -24,7 +24,7 @@ public class UnitTest1
     {
         DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"foo\":420}"));
 
-        Assert.Equal(420, o.foo);
+        Assert.Equal(420, o?.foo);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class UnitTest1
     {
         DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"bar\":\"baz\"}"));
 
-        Assert.Equal("baz", o.bar);
+        Assert.Equal("baz", o?.bar);
     }
 
     [Fact]
@@ -40,8 +40,8 @@ public class UnitTest1
     {
         DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"bar\":\"baz\",\"foo\":420}"));
 
-        Assert.Equal("baz", o.bar);
-        Assert.Equal(420, o.foo);
+        Assert.Equal("baz", o?.bar);
+        Assert.Equal(420, o?.foo);
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public class UnitTest1
     {
         DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"baz\":420.69}"));
 
-        Assert.Equal((decimal) 420.69, o.baz);
+        Assert.Equal((decimal) 420.69, o?.baz);
     }
 
     [Fact]
@@ -57,6 +57,6 @@ public class UnitTest1
     {
         DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"baz\":-420.69}"));
 
-        Assert.Equal((decimal) -420.69, o.baz);
+        Assert.Equal((decimal) -420.69, o?.baz);
     }
 }
