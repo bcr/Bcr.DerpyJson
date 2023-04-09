@@ -37,4 +37,4 @@ I didn't want to wait that long. This one takes less time.
 
 ### Arrays
 
-* Not supported
+* Not supported.
