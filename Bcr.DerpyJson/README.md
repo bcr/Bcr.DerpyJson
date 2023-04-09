@@ -11,7 +11,6 @@ I didn't want to wait that long. This one takes less time.
 
 ### General
 
-* Top-level input is expected to be an Object, not a Value.
 * The philosophy is to be ignorant of bad input. I'll probably make a
   reasonable attempt to handle bad input if it comes up. But I'm not
   actively looking for trouble.
