@@ -110,14 +110,7 @@ namespace Bcr.DerpyJson
                 {
                     if (json[index] == '\\')
                     {
-                        if (json[index + 1] == 'u')
-                        {
-                            endEscapeIndex = index + 1 + 4;
-                        }
-                        else
-                        {
-                            endEscapeIndex = index + 1;
-                        }
+                        endEscapeIndex = index + 1 + ((json[index + 1] == 'u') ? 4 : 0);
                     }
                     else if (json[index] == '"')
                     {
