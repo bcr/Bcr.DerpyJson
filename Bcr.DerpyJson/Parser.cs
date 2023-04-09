@@ -17,7 +17,7 @@ public class Parser
         }
     }
 
-    private static void ParseObject(Span<byte> json, ref int index, object destination)
+    private static object ParseObject(Span<byte> json, ref int index, object destination)
     {
         // Skip the opening {
         ++index;
@@ -68,19 +68,32 @@ public class Parser
 
         // Skip the closing '}'
         ++index;
+
+        return destination;
     }
 
-    public static int ParseNumber(Span<byte> json, ref int index)
+    public static object ParseNumber(Span<byte> json, ref int index)
     {
-        int finalNumber = 0;
-        while (char.IsAsciiDigit((char) json[index]))
+        var startIndex = index;
+        while ("-+0123456789eE.".Contains((char) json[index]))
         {
-            finalNumber *= 10;
-            finalNumber += json[index] - '0';
             index += 1;
         }
+        var endIndex = index - 1;
 
-        return finalNumber;
+        var rawNumber = Encoding.UTF8.GetString(json.Slice(startIndex, endIndex - startIndex + 1));
+        int integerResult;
+
+        if (int.TryParse(rawNumber, out integerResult))
+        {
+            return integerResult;
+        }
+        else
+        {
+            decimal doubleResult;
+            decimal.TryParse(rawNumber, out doubleResult);
+            return doubleResult;
+        }
     }
 
     public static string ParseString(Span<byte> json, ref int index)
@@ -109,7 +122,7 @@ public class Parser
 
         if (thisByte == '{')
         {
-            ParseObject(json, ref index, destination);
+            return ParseObject(json, ref index, destination);
         }
         else if (thisByte == '"')
         {
@@ -128,8 +141,6 @@ public class Parser
         object returnObject = FormatterServices.GetUninitializedObject(typeof(T));
         int index = 0;
 
-        ParseValue(json, ref index, returnObject);
-
-        return (T) returnObject;
+        return (T) ParseValue(json, ref index, returnObject);
     }
 }

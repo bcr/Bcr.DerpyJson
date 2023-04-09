@@ -8,6 +8,7 @@ public class UnitTest1
     {
         public int foo { get; set; }
         public string? bar { get; set; }
+        public Decimal baz { get; set; }
     }
 
     [Fact]
@@ -41,5 +42,13 @@ public class UnitTest1
 
         Assert.Equal("baz", o.bar);
         Assert.Equal(420, o.foo);
+    }
+
+    [Fact]
+    public void Parse_ObjectDecimal()
+    {
+        DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"baz\":420.69}"));
+
+        Assert.Equal((decimal) 420.69, o.baz);
     }
 }
