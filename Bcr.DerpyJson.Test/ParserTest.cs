@@ -63,6 +63,14 @@ public class ParserTest
     }
 
     [Fact]
+    public void Parse_ObjectExtraIgnored()
+    {
+        DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"yort\":\"asdf\",\"yort2\":42,\"baz\":-420.69}"));
+
+        Assert.Equal((decimal) -420.69, o?.baz);
+    }
+
+    [Fact]
     public void Parse_NestedObjects()
     {
         DummyClass? o = Parser.Parse<DummyClass>(Encoding.UTF8.GetBytes("{\"bar\":\"baz\",\"foo\":420,\"blort\":{\"bar\":\"bay\",\"foo\":421}}"));
