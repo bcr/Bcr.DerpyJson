@@ -19,4 +19,7 @@ public class BenchmarkParse
 
     [Benchmark]
     public CardTimeResponse TinyJsonParser() => json.FromJson<CardTimeResponse>();
+
+    [Benchmark]
+    public CardTimeResponse NewtonsoftJsonParser() => Newtonsoft.Json.JsonConvert.DeserializeObject<CardTimeResponse>(json);
 }
