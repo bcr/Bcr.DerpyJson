@@ -2,6 +2,7 @@ using Bcr.DerpyJson;
 using BenchmarkDotNet.Attributes;
 using System.Text;
 using System.Text.Json;
+using TinyJson;
 
 [MemoryDiagnoser]
 public class BenchmarkParse
@@ -15,4 +16,7 @@ public class BenchmarkParse
 
     [Benchmark]
     public CardTimeResponse DerpyParser() => Parser.Parse<CardTimeResponse>(Encoding.UTF8.GetBytes(json));
+
+    [Benchmark]
+    public CardTimeResponse TinyJsonParser() => json.FromJson<CardTimeResponse>();
 }

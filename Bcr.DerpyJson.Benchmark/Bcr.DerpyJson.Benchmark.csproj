@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.5" />
+    <PackageReference Include="TinyJson" Version="1.0.0" />
   </ItemGroup>
 
   <PropertyGroup>
